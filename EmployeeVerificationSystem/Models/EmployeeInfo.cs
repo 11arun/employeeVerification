@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace EmployeeVerificationSystem.Models;
 
@@ -25,6 +26,7 @@ public partial class EmployeeInfo
 
     public virtual ICollection<EducationalBackground> EducationalBackgrounds { get; } = new List<EducationalBackground>();
 
+    [JsonIgnore]
     public virtual UserRole? Role { get; set; }
 
     public virtual ICollection<WorkExperience> WorkExperiences { get; } = new List<WorkExperience>();

@@ -11,7 +11,7 @@ public partial class Certification
 
     public string? Cname { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     public virtual EmployeeInfo? Emp { get; set; }
 }
