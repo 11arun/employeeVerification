@@ -23,7 +23,8 @@ namespace EmployeeVerificationSystem
         {
             try
             {
-                var info = _context.EmployeeInfos.Where(x => x.Email == Email).FirstOrDefault();
+                Password = EmployeeInformation.EncryptPassword(Password);
+                var info = _context.EmployeeInfos.Where(x => x.Email == Email && x.Password==Password).FirstOrDefault();
                 if (info != null)
                 {
                     return true;

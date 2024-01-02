@@ -18,6 +18,7 @@ namespace EmployeeVerificationSystem
         {
             _context = context;
         }
+        public EmployeeInformation() { }
 
         public bool AddEmplyee(EmployeeInfo emp)
         {
@@ -91,7 +92,26 @@ namespace EmployeeVerificationSystem
             catch { throw; }
         }
 
-        private static string EncryptPassword(string password)
+        public bool ResetPassword(string email, string password)
+        {
+            try
+            {
+                var res = _context.EmployeeInfos.Where(x => x.Email == email).FirstOrDefault();
+                if (res != null)
+                {
+                    res.Password = EncryptPassword(password);
+                    _context.EmployeeInfos.Update(res);
+                    _context.SaveChanges();
+
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch { throw; }
+        }
+
+        public static string EncryptPassword(string password)
         {
             if (password == null)
                 throw new ArgumentNullException("Plain Text");
