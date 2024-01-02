@@ -5,6 +5,7 @@ using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,10 +43,10 @@ namespace EmployeeVerificationSystem
             try
             {
                 var info = _context.EmployeeInfos.Where(x => x.EmpId == eid).FirstOrDefault();
-                if(info != null)
+                if (info != null)
                 {
                     info.IsActive = false;
-                   // _context.EmployeeInfos.Remove(info);
+                    // _context.EmployeeInfos.Remove(info);
                     _context.SaveChanges();
                     return true;
                 }
@@ -58,7 +59,7 @@ namespace EmployeeVerificationSystem
         {
             try
             {
-                return _context.EmployeeInfos.Where(e=>e.IsActive==true).ToList();
+                return _context.EmployeeInfos.Where(e => e.IsActive == true).ToList();
             }
             catch { throw; }
         }
@@ -78,7 +79,7 @@ namespace EmployeeVerificationSystem
             {
                 var recordexist = _context.EmployeeInfos.Where(x => x.EmpId == emp.EmpId).FirstOrDefault();
                 if (recordexist != null)
-                {  
+                {
                     recordexist.MobNo = emp.MobNo;
                     recordexist.Email = emp.Email;
                     recordexist.Name = emp.Name;
@@ -118,6 +119,21 @@ namespace EmployeeVerificationSystem
             var encdata = Encoding.UTF8.GetBytes(password);
             string encodepwd = Convert.ToBase64String(encdata);
             return encodepwd;
+        }
+        public bool SendEmail(string toEmail)
+        {
+            SmtpClient smtpClient = new SmtpClient("DomainName.com", 25);
+
+            smtpClient.Credentials = new System.Net.NetworkCredential("sendEmail@test.com", "password");
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = true;
+            MailMessage mail = new MailMessage();
+            mail.Subject = "Password Reset";
+            //Setting From , To and CC
+            mail.From = new MailAddress("anuragverma@tavant.com", "Anurag Verma");
+            mail.To.Add(new MailAddress(toEmail));
+            smtpClient.Send(mail);
+            return true;
         }
 
     }

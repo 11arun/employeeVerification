@@ -15,5 +15,6 @@ namespace EmployeeVerificationSystem.Interface
         EmployeeInfo GetEmployeeById(int eid);
         Task<int> UpdateEmployee(EmployeeInfo emp);
         public bool ResetPassword(string email, string password);
+        bool SendEmail(string toEmail);
     }
 }
